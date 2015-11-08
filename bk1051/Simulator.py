@@ -24,8 +24,6 @@ class Simulator(object):
 
 	def _validate_returns(self):
 		'''Validate the returns dict'''
-
-		print self.ranges
 		for i in range(len(self.ranges) - 1):
 			if self.ranges[i][1] != self.ranges[i+1][0]:
 				raise InvalidReturnsException("Nonoverlapping ranges in returns")
@@ -43,5 +41,4 @@ class Simulator(object):
 		trials = np.random.rand(self.nrows, self.ncols)
 		for interval in self.ranges:
 			trials[np.logical_and(trials >= interval[0], trials < interval[1])] = self.returns[interval]
-		print trials
 		return trials
