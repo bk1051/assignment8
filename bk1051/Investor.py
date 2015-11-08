@@ -8,7 +8,9 @@ class Investor(object):
 		self.initial_budget = 1000
 
 	def run_simulations(self):
-		pass
+		simulator = Simulator({.51: 1.0, .49: -1.0})
+		for trial in num_trials:
+			simulator.run()
 
 	def plot():
 		pass
