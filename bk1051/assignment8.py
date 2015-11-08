@@ -1,7 +1,10 @@
 import Investor
 import re
 
+# String to quit program
 QUIT = 'quit'
+# Budget for investiment on first day
+BUDGET = 1000
 
 class PositionsParseException(Exception):
 	pass
@@ -81,7 +84,10 @@ def run():
 	positions = ask_for_positions()
 	num_trials = ask_for_num_trials()
 	
-	
+	investor = Investor(positions, num_trials, BUDGET)
+	investor.run_simulations()
+
+	investor.plot()
 
 
 
