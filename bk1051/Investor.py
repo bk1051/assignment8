@@ -14,13 +14,19 @@ class Investor(object):
 		for position in positions:
 			self.run_simulation(postition)
 
-	def run_simulation(self, num_shares):
+	def run_simulation(self, num_investments):
 		'''Run a single simulation with a given number of shares'''
-		position_value = self.initial_budget / num_shares
+		position_value = self.initial_budget / num_investments
 		# Create the simulator object
-		simulator = Simulator({(0, .51): 1.0, (.51, 1): -1.0}, num_shares, seed=random.randint(10e2, 10e6))
+		simulator = Simulator({(0, .51): 1.0, (.51, 1): -1.0}, num_investments, seed=random.randint(10e2, 10e6))
+
+		cumu_ret = np.array(self.num_trials)
+		daily_ret = np.array(self.num_trials)
+
 		for trial in range(self.num_trials):
-			simulator.run()
+			trial_returns = simulator.run() * position_value
+			cumu_ret[trial] = np.sum(trial_returns)
+
 
 	def plot():
 		pass
