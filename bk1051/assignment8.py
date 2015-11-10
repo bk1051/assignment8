@@ -1,3 +1,16 @@
+"""
+Assignment 8
+
+Author: Brian Karfunkel (bk1051)
+Date: 11/9/2015
+
+This program asks the user for a number of positions and a number
+of trials to run. It then simulates a biased coinflip for each position,
+repeating the simulation for every trial. Using the results, the program
+outputs PDFs of histograms for all the trials, as well as a text file
+with the means and standard deviations for each set of positions.
+"""
+
 from Investor import Investor
 import re
 
@@ -6,6 +19,7 @@ QUIT = 'quit'
 # Budget for investiment on first day
 BUDGET = 1000
 
+# Custom exceptions
 class PositionsParseException(Exception):
 	pass
 
@@ -14,6 +28,8 @@ class NumTrialsParseException(Exception):
 
 class QuitException(Exception):
 	pass
+
+
 
 def parse_positions(input_string):
 	'''Parse the positions input into a list.
@@ -89,7 +105,10 @@ def output_results(results):
 				std=result[2]
 			)
 			print outstring
+
+
 def run():
+	'''Main function for module. Asks for input, runs simulations, and outputs the results.'''
 	positions = ask_for_positions()
 	num_trials = ask_for_num_trials()
 	
@@ -104,13 +123,9 @@ def run():
 
 
 
-
-
+# Run the module
 if __name__ == '__main__':
 	try:
 		run()
 	except (QuitException, KeyboardInterrupt):
 		print "\nQuitting program\n"
-	# except Exception as e:
-	# 	print "Uncaught exception:"
-	# 	print e

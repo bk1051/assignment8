@@ -5,16 +5,27 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 class Investor(object):
+	'''Represents an object that simulates a set of investments
+	and outputs the results.'''
 
 	def __init__(self, positions, num_trials, initial_budget):
+		'''Constructor.
+
+		Args:
+			positions: the number of positions to take
+			num_trials: the number of simulation trials to run
+			initial_budget: the initial budget to spend on the positions
+		'''
 		self.positions = positions
 		self.num_trials = num_trials
 		self.initial_budget = initial_budget
 		self.run_simulations()
 
+
 	def run_simulations(self):
+		'''Run all the simulations for each position'''
 		self.results = []
-		for i, position in enumerate(self.positions):
+		for position in self.positions:
 			self.results.append(self._run_simulation(position))
 		return self.results
 
@@ -38,26 +49,28 @@ class Investor(object):
 
 		# Create the simulator object
 		simulator = Simulator({(0, .51): 1.0, (.51, 1): -1.0}, 
-			nrows=num_investments, 
-			ncols=self.num_trials) 
-			#seed=random.random()) # random seed
+								nrows=num_investments, 
+								ncols=self.num_trials) 
 
 		# Run the simulator, and multiply each of the results by the value
 		# of a share for this position
-
 		trial_returns = simulator.run() * position_value
-		#print "Trial returns\n", trial_returns
+
 		# Collapse all investments on each day into cumulative return
 		cumu_ret = self.initial_budget + trial_returns.sum(axis=0)
-		#print "Cumulative return\n", cumu_ret
-		# The daily rate of return
+
+		# The daily rate of return, which is the final result
 		daily_ret = (cumu_ret / float(self.initial_budget)) - 1.
-		#print "Daily return\n", daily_ret
 
 		return daily_ret
 
+
 	def get_results(self):
-		'''Return summary results'''
+		'''Return array of summary results
+
+		Each position's result is a single row, with the columns:
+		number of positions, mean returns, standard deviation of returns
+		'''
 		positions = np.array(self.positions)
 		results = np.vstack(self.results)
 		means = results.mean(axis=1)
@@ -71,6 +84,7 @@ class Investor(object):
 
 			plt.figure()
 			plt.hist(result, 100, range=[-1,1]) # Using 101 bins looks better, but assignment specifies 100 bins
+			
 			# Set title based on parameters of the result
 			plt.title("Returns from {0:,} Position{1}, {2:,} Simulations".format(
 				(self.positions[i]), 
