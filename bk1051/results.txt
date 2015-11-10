@@ -1,0 +1,4 @@
+Number of Positions:       1  Mean:  0.0332  Std. Dev.:  0.9994
+Number of Positions:      10  Mean:  0.0208  Std. Dev.:  0.3129
+Number of Positions:     100  Mean:  0.0184  Std. Dev.:  0.0998
+Number of Positions:    1000  Mean:  0.0196  Std. Dev.:  0.0316
