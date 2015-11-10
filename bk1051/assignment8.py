@@ -57,7 +57,7 @@ def parse_positions(input_string):
 		else:
 			raise PositionsParseException("List items must be integers")
 
-	return positions
+	return sorted(positions)
 
 
 def parse_num_trials(input_string):
@@ -105,6 +105,7 @@ def output_results(results):
 				std=result[2]
 			)
 			print outstring
+			outfile.write("{0}\n".format(outstring))
 
 
 def run():
