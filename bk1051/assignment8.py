@@ -1,4 +1,4 @@
-import Investor
+from Investor import Investor
 import re
 
 # String to quit program
@@ -34,7 +34,6 @@ def parse_positions(input_string):
 	# Otherwise, if it's not a delimiter, throw and exception.
 	positions = []
 	for element in elements:
-		print element
 		if element.isdigit() and float(element)==int(element):
 			positions.append(int(element))
 		elif re.match(list_re, element):
@@ -79,14 +78,28 @@ def ask_for_num_trials():
 		print "Invalid number of trials to run. Please input an integer. Type '%s' to exit" % QUIT
 		ask_for_num_trials()
 
-
+def output_results(results):
+	'''Print results and save to text file'''
+	print "Results of simulations:"
+	with open('results.txt', 'w') as outfile:
+		for result in results: # For each row
+			outstring = "Number of Positions:  {positions:6.0f}  Mean:  {mean:6.4f}  Std. Dev.:  {std:6.4f}".format(
+				positions=result[0],
+				mean=result[1],
+				std=result[2]
+			)
+			print outstring
 def run():
 	positions = ask_for_positions()
 	num_trials = ask_for_num_trials()
 	
+	print "Running trials..."
 	investor = Investor(positions, num_trials, BUDGET)
-	investor.run_simulations()
 
+	# Save the results to a text file and print to screen
+	output_results(investor.get_results())
+
+	# Save histograms as PDFs
 	investor.plot()
 
 
@@ -98,6 +111,6 @@ if __name__ == '__main__':
 		run()
 	except (QuitException, KeyboardInterrupt):
 		print "\nQuitting program\n"
-	except Exception as e:
-		print "Uncaught exception:"
-		print e
+	# except Exception as e:
+	# 	print "Uncaught exception:"
+	# 	print e
